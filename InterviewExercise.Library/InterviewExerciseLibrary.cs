@@ -12,22 +12,32 @@ namespace InterviewExercise.Library {
         }
 
         public InterviewExerciseLibrary(T element) : this() {
+            if (element == null) throw new ArgumentNullException("element");
+
             _list.Add(element);
         }
 
         public InterviewExerciseLibrary(IList<T> list) {
+            if (list == null) throw new ArgumentNullException("list");
+
             _list = list;
         }
 
         public void Add(T item) {
+            NullCheck(item);
+
             _list.Add(item);
         }
 
         public IReadOnlyList<T> Find(Func<T, bool> selector) {
-            return new ReadOnlyCollection<T>(_list.Where(selector).ToList());
+            var results = _list.Where(selector).ToList();
+
+            return new ReadOnlyCollection<T>(results);
         }
 
         public void Update(T item) {
+            NullCheck(item);
+
             for (int i = 0; i < _list.Count; i++) {
                 if (_list[i].CompareTo(item) == 0) {
                     _list[i] = item;
@@ -36,6 +46,8 @@ namespace InterviewExercise.Library {
         }
 
         public void Delete(T item) {
+            NullCheck(item);
+
             for (int i = 0; i < _list.Count; i++) {
                 if (_list[i].CompareTo(item) == 0) {
                     _list.RemoveAt(i);
@@ -51,6 +63,10 @@ namespace InterviewExercise.Library {
             ((List<T>)_list).Sort(comparer);
 
             return new ReadOnlyCollection<T>(_list);
+        }
+
+        private static void NullCheck(T item) {
+            if (item == null) throw new ArgumentNullException("item");
         }
     }
 }

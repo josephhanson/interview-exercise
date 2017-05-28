@@ -152,7 +152,7 @@ namespace InterviewExercise.Tests {
         public void ItShouldDeleteAnEntryByValue() {
             var list = new List<User>() { _user1, _user2 };
             var example = new InterviewExerciseLibrary<User>(list);
-            var user1 = new User { Id = 1 };
+            var user1 = new User { Id = 1, Name = "John"};
 
             example.Delete(user1);
             var results = example.Find(x => x.Id == 1);
