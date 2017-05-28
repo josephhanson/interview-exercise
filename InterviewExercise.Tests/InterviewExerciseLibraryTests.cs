@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using InterviewExercise.Client;
 using InterviewExercise.Library;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -71,10 +73,10 @@ namespace InterviewExercise.Tests {
             var list = new List<User>() { _user1, _user2 };
             var example = new InterviewExerciseLibrary<User>(list);
 
-            var result = example.Find(x => x.Id == 1);
+            var results = example.Find(x => x.Id == 1);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Id);
+            Assert.IsNotNull(results);
+            Assert.AreEqual(1, results[0].Id);
         }
 
         [TestMethod]
@@ -82,9 +84,9 @@ namespace InterviewExercise.Tests {
             var list = new List<User>() { _user1, _user2 };
             var example = new InterviewExerciseLibrary<User>(list);
 
-            var result = example.Find(x => x.Id == 10);
+            var results = example.Find(x => x.Id == 10);
 
-            Assert.IsNull(result);
+            Assert.AreEqual(0, results.Count);
         }
 
         [TestMethod]
@@ -92,11 +94,11 @@ namespace InterviewExercise.Tests {
             var list = new List<User>() { _user1, _user2 };
             var example = new InterviewExerciseLibrary<User>(list);
 
-            var result = example.Find(x => x.Name == "John");
+            var results = example.Find(x => x.Name == "John");
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Id);
-            Assert.AreEqual("John", result.Name);
+            Assert.IsNotNull(results);
+            Assert.AreEqual(1, results[0].Id);
+            Assert.AreEqual("John", results[0].Name);
         }
 
         [TestMethod]
@@ -104,9 +106,9 @@ namespace InterviewExercise.Tests {
             var list = new List<User>() { _user1, _user2 };
             var example = new InterviewExerciseLibrary<User>(list);
 
-            var result = example.Find(x => x.Name == "Mike");
+            var results = example.Find(x => x.Name == "Mike");
 
-            Assert.IsNull(result);
+            Assert.AreEqual(0, results.Count);
         }
 
         [TestMethod]
@@ -116,10 +118,10 @@ namespace InterviewExercise.Tests {
             var example = new InterviewExerciseLibrary<User>(list);
 
             example.Update(_user1);
-            var result = example.Find(x => x.Id == 2);
+            var results = example.Find(x => x.Id == 2);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual("Janey", result.Name);
+            Assert.IsNotNull(results);
+            Assert.AreEqual("Janey", results[0].Name);
         }
 
         [TestMethod]
@@ -129,10 +131,10 @@ namespace InterviewExercise.Tests {
             var example = new InterviewExerciseLibrary<User>(list);
 
             example.Update(updateUser);
-            var result = example.Find(x => x.Id == 2);
+            var results = example.Find(x => x.Id == 2);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual("Janey", result.Name);
+            Assert.IsNotNull(results);
+            Assert.AreEqual("Janey", results[0].Name);
         }
 
         [TestMethod]
@@ -141,9 +143,9 @@ namespace InterviewExercise.Tests {
             var example = new InterviewExerciseLibrary<User>(list);
 
             example.Delete(_user1);
-            var result = example.Find(x => x.Id == 1);
+            var results = example.Find(x => x.Id == 1);
 
-            Assert.IsNull(result);
+            Assert.AreEqual(0, results.Count);
         }
 
         [TestMethod]
@@ -153,9 +155,9 @@ namespace InterviewExercise.Tests {
             var user1 = new User { Id = 1 };
 
             example.Delete(user1);
-            var result = example.Find(x => x.Id == 1);
+            var results = example.Find(x => x.Id == 1);
 
-            Assert.IsNull(result);
+            Assert.AreEqual(0, results.Count);
         }
 
         [TestMethod]

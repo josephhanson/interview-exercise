@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace InterviewExercise.Library {
@@ -22,8 +23,8 @@ namespace InterviewExercise.Library {
             _list.Add(item);
         }
 
-        public T Find(Func<T, bool> selector) {
-            return _list.SingleOrDefault(selector);
+        public IReadOnlyList<T> Find(Func<T, bool> selector) {
+            return new ReadOnlyCollection<T>(_list.Where(selector).ToList());
         }
 
         public void Update(T item) {
@@ -42,14 +43,14 @@ namespace InterviewExercise.Library {
             }
         }
 
-        public IList<T> Dump() {
-            return _list;
+        public IReadOnlyList<T> Dump() {
+            return new ReadOnlyCollection<T>(_list);
         }
 
-        public IList<T> Dump(IComparer<T> comparer) {
+        public IReadOnlyList<T> Dump(IComparer<T> comparer) {
             ((List<T>)_list).Sort(comparer);
 
-            return _list;
+            return new ReadOnlyCollection<T>(_list);
         }
     }
 }
